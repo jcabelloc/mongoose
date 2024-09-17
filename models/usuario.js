@@ -56,6 +56,11 @@ usuarioSchema.methods.deleteItemDelCarrito = function(idProducto) {
   return this.save();
 };
 
+usuarioSchema.methods.limpiarCarrito = function() {
+  this.carrito = { items: [] };
+  return this.save();
+};
+
 module.exports = mongoose.model('Usuarios', usuarioSchema);
 
 /*

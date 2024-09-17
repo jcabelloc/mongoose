@@ -1,4 +1,6 @@
 const Producto = require('../models/producto');
+const Pedido = require('../models/pedido');
+
 
 exports.getProductos = (req, res, next) => {
   Producto.find()
@@ -80,16 +82,32 @@ exports.postEliminarProductoCarrito = (req, res, next) => {
 
 exports.postPedido = (req, res, next) => {
   req.usuario
-    .agregarPedido()
+    .populate('carrito.items.idProducto')
+    .then(usuario => {
+      const productos = usuario.carrito.items.map(i => {
+        return { cantidad: i.cantidad, producto: { ...i.idProducto._doc } };
+      });
+      const pedido = new Pedido({
+        usuario: {
+          nombre: req.usuario.nombre,
+          idUsuario: req.usuario
+        },
+        productos: productos
+      });
+      return pedido.save();
+    })
     .then(result => {
+      return req.usuario.limpiarCarrito();
+    })
+    .then(() => {
       res.redirect('/pedidos');
     })
     .catch(err => console.log(err));
+
 };
 
 exports.getPedidos = (req, res, next) => {
-  req.usuario
-    .getPedidos()
+  Pedido.find({ 'usuario.idUsuario': req.usuario._id })
     .then(pedidos => {
       res.render('tienda/pedidos', {
         path: '/pedidos',

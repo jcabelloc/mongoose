@@ -13,7 +13,7 @@ exports.postCrearProducto = (req, res, next) => {
   const urlImagen = req.body.urlImagen;
   const precio = req.body.precio;
   const descripcion = req.body.descripcion;
-  const producto = new Producto(nombre, precio, descripcion, urlImagen, null, req.usuario._id);
+  const producto = new Producto({nombre: nombre, precio: precio, descripcion: descripcion, urlImagen: urlImagen});
   producto
     .save()
     .then(result => {
@@ -55,15 +55,14 @@ exports.postEditarProducto = (req, res, next) => {
   const urlImagen = req.body.urlImagen;
   const descripcion = req.body.descripcion;
 
-  const producto = new Producto(
-    nombre,
-    precio,
-    descripcion,
-    urlImagen,
-    idProducto
-  );
-
-  producto.save()
+  Producto.findById(idProducto)
+    .then(producto => {
+      producto.nombre = nombre;
+      producto.precio = precio;
+      producto.descripcion = descripcion;
+      producto.urlImagen = urlImagen;
+      return product.save();
+    })
     .then(result => {
       console.log('PRODUCTO GUARDADO!');
       res.redirect('/admin/productos');
@@ -73,7 +72,7 @@ exports.postEditarProducto = (req, res, next) => {
 
 exports.getProductos = (req, res, next) => {
   Producto
-    .fetchAll()
+    .find()
     .then(productos => {
       res.render('admin/productos', {
         prods: productos,
@@ -87,7 +86,7 @@ exports.getProductos = (req, res, next) => {
 
 exports.postEliminarProducto = (req, res, next) => {
   const idProducto = req.body.idProducto;
-  Producto.deleteById(idProducto)
+  Producto.findByIdAndDelete(idProducto)
     .then(() => {
       console.log('PRODUCTO ELIMINADO');
       res.redirect('/admin/productos');

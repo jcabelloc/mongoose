@@ -14,7 +14,7 @@ router.get('/productos', tiendaController.getProductos);
 
 router.get('/productos/:idProducto', tiendaController.getProducto);
 
-
+/*
 router.get('/carrito', tiendaController.getCarrito);
 
 router.post('/carrito', tiendaController.postCarrito);
@@ -26,6 +26,6 @@ router.get('/pedidos', tiendaController.getPedidos);
 
 router.post('/crear-pedido', tiendaController.postPedido);
 
-router.get('/checkout', tiendaController.getCheckout); 
+router.get('/checkout', tiendaController.getCheckout); */
 
 module.exports = router;

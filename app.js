@@ -22,6 +22,7 @@ app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(raizDir, 'public')));
 
+/*
 app.use((req, res, next) => {
   // Crear un usuario manualmente en MongoAtlas
   Usuario.findById('66e75f6aa5ead9c7ab302d8c')
@@ -30,7 +31,7 @@ app.use((req, res, next) => {
       next();
     })
     .catch(err => console.log(err));
-});
+});*/
 
 app.use('/admin', adminRoutes);
 app.use(tiendaRoutes);

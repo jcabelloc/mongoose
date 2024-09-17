@@ -7,7 +7,7 @@ const raizDir = require('./utils/path');
 const bodyParser = require('body-parser')
 
 const errorController = require('./controllers/error');
-const mongoConnect = require('./utils/database').mongoConnect;
+const mongoose = require('mongoose');
 const Usuario = require('./models/usuario');
 
 
@@ -37,6 +37,16 @@ app.use(tiendaRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose
+  .connect(
+    'mongodb+srv://jcabelloc:secreto@cluster0.dm3fg.mongodb.net/tiendaonline?retryWrites=true&w=majority&appName=Cluster0'
+  )
+  .then(result => {
+    console.log(result)
+    app.listen(3000);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+

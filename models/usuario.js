@@ -1,4 +1,5 @@
 const mongodb = require('mongodb');
+/*
 const getDb = require('../utils/database').getDb;
 
 
@@ -129,3 +130,5 @@ class Usuario {
 }
 
 module.exports = Usuario;
+
+*/

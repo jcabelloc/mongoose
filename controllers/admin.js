@@ -13,7 +13,8 @@ exports.postCrearProducto = (req, res, next) => {
   const urlImagen = req.body.urlImagen;
   const precio = req.body.precio;
   const descripcion = req.body.descripcion;
-  const producto = new Producto({nombre: nombre, precio: precio, descripcion: descripcion, urlImagen: urlImagen});
+  const producto = new Producto({nombre: nombre, precio: precio, descripcion: descripcion, urlImagen: urlImagen, idUsuario: req.usuario._id
+  });
   producto
     .save()
     .then(result => {
@@ -73,7 +74,9 @@ exports.postEditarProducto = (req, res, next) => {
 exports.getProductos = (req, res, next) => {
   Producto
     .find()
+    //.select('nombre precio -_id')
     .then(productos => {
+      console.log(productos)
       res.render('admin/productos', {
         prods: productos,
         titulo: 'Admin Productos',

@@ -18,6 +18,11 @@ const productoSchema = new Schema({
   urlImagen: {
     type: String,
     required: true
+  },
+  idUsuario: {
+    type: Schema.Types.ObjectId,
+    ref: 'Usuario',
+    required: true
   }
 });
 

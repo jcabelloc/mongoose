@@ -62,7 +62,7 @@ exports.postEditarProducto = (req, res, next) => {
       producto.precio = precio;
       producto.descripcion = descripcion;
       producto.urlImagen = urlImagen;
-      return product.save();
+      return producto.save();
     })
     .then(result => {
       console.log('PRODUCTO GUARDADO!');

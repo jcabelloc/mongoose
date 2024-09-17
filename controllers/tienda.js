@@ -44,15 +44,16 @@ exports.getIndex = (req, res, next) => {
 
 exports.getCarrito = (req, res, next) => {
   req.usuario
-    .getCarrito()
-      .then(productos => {
-        res.render('tienda/carrito', {
-          path: '/carrito',
-          titulo: 'Mi Carrito',
-          productos: productos
-        });
-      })
-      .catch(err => console.log(err));
+    .populate('carrito.items.idProducto')
+    .then(usuario => {
+      const productos = usuario.carrito.items;
+      res.render('tienda/carrito', {
+        path: '/carrito',
+        titulo: 'Mi Carrito',
+        productos: productos
+      });
+    })
+    .catch(err => console.log(err));
 };
 
 exports.postCarrito = (req, res, next) => {
@@ -71,10 +72,10 @@ exports.postEliminarProductoCarrito = (req, res, next) => {
   const idProducto = req.body.idProducto;
   req.usuario
     .deleteItemDelCarrito(idProducto)
-      .then(result => {
-        res.redirect('/carrito');
-      })
-      .catch(err => console.log(err));
+    .then(result => {
+      res.redirect('/carrito');
+    })
+    .catch(err => console.log(err));
 };
 
 exports.postPedido = (req, res, next) => {
